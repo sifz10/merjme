@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SocialController;
+use App\Http\Controllers\FriendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +33,16 @@ Route::get('/dashboard', function () {
 Route::get('/profile/{slug}', [ProfileController::class, 'index'])->name('profile');
 Route::get('/profile-settings/{slug}', [ProfileController::class, 'profile_settings'])->name('profile_settings');
 Route::post('/profile-settings-update', [ProfileController::class, 'profile_update'])->name('profile_update');
+Route::post('/profile-change-password', [ProfileController::class, 'changePassword'])->name('changePassword');
+Route::post('/profile-change-contact', [ProfileController::class, 'changeContact'])->name('changeContact');
+
+Route::post('/social-accouts', [SocialController::class, 'socialAccouts'])->name('socialAccouts');
+
+
+Route::get('/friend-request-sent/{receiver_id}', [FriendController::class, 'sentFriendRequest'])->name('sentFriendRequest');
+Route::get('/friend-request-accept-request/{id}', [FriendController::class, 'accept_request'])->name('accept_request');
+Route::get('/friend-request-delete-request/{id}', [FriendController::class, 'delete_request'])->name('delete_request');
 });
-
-
 
 Route::get('/logout', [FrontEndController::class, function(){
     Auth::logout();

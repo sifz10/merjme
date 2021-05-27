@@ -52,10 +52,11 @@ class RegisteredUserController extends Controller
             'slug' => $slug,
         ]);
 
+
         event(new Registered($user));
 
         Auth::login($user);
-
+        
         return redirect(RouteServiceProvider::HOME);
     }
 }

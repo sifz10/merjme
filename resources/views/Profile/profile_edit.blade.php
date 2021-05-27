@@ -3,6 +3,9 @@
 Edit - {{ $profile->name }}
 @endsection
 @section('content')
+  @php
+    $socials = DB::table('socials')->where('user_id', Auth::id())->get();
+  @endphp
   <div id="content-page" class="content-page">
       <div class="container">
          <div class="row">
@@ -12,23 +15,33 @@ Edit - {{ $profile->name }}
                   {{ session('success') }}
                 </div>
               @endif
+              @if (Session::has('danger'))
+                <div class="alert alert-danger">
+                  {{ session('danger') }}
+                </div>
+              @endif
                <div class="card">
                   <div class="card-body p-0">
                      <div class="iq-edit-list">
                         <ul class="iq-edit-profile d-flex nav nav-pills">
-                           <li class="col-md-4 p-0">
+                           <li class="col-md-3 p-0">
                               <a class="nav-link active" data-toggle="pill" href="#personal-information">
                               Personal Information
                               </a>
                            </li>
-                           <li class="col-md-4 p-0">
+                           <li class="col-md-3 p-0">
                               <a class="nav-link" data-toggle="pill" href="#chang-pwd">
                               Change Password
                               </a>
                            </li>
-                           <li class="col-md-4 p-0">
+                           <li class="col-md-3 p-0">
                               <a class="nav-link" data-toggle="pill" href="#manage-contact">
                               Manage Contact
+                              </a>
+                           </li>
+                           <li class="col-md-3 p-0">
+                              <a class="nav-link" data-toggle="pill" href="#social-accounts">
+                              Social Accounts
                               </a>
                            </li>
                         </ul>
@@ -82,11 +95,11 @@ Edit - {{ $profile->name }}
                                     <div class="form-group col-sm-6">
                                        <label class="d-block">Gender:</label>
                                        <div class="custom-control custom-radio custom-control-inline">
-                                          <input type="radio" id="customRadio6" name="gender" value="Male" class="custom-control-input" checked="">
+                                          <input type="radio" id="customRadio6" @if ($profile->gender == "Male") checked @endif name="gender" value="Male" class="custom-control-input">
                                           <label class="custom-control-label" for="customRadio6"> Male </label>
                                        </div>
                                        <div class="custom-control custom-radio custom-control-inline">
-                                          <input type="radio" id="customRadio7" name="gender" name="Female" class="custom-control-input">
+                                          <input type="radio" @if ($profile->gender =="Female") checked @endif id="customRadio7" name="gender" name="Female" value="Female" class="custom-control-input">
                                           <label class="custom-control-label" for="customRadio7"> Female </label>
                                        </div>
                                     </div>
@@ -94,33 +107,35 @@ Edit - {{ $profile->name }}
                                     <div class="form-group col-sm-6">
                                        <label>Marital Status:</label>
                                        <select class="form-control" id="exampleFormControlSelect1" name="status">
-                                          <option selected="">Single</option>
-                                          <option>Married</option>
-                                          <option>Widowed</option>
-                                          <option>Divorced</option>
-                                          <option>Separated </option>
+                                          <option @if ($profile->status == "Single") selected @endif>Single</option>
+                                          <option @if ($profile->status == "Married") selected @endif>Married</option>
+                                          <option @if ($profile->status == "Widowed") selected @endif>Widowed</option>
+                                          <option @if ($profile->status == "Divorced") selected @endif>Divorced</option>
+                                          <option @if ($profile->status == "Separated") selected @endif>Separated </option>
                                        </select>
                                     </div>
 
                                     <div class="form-group col-sm-6">
                                        <label>Country:</label>
                                        <select class="form-control" id="exampleFormControlSelect3" name="country">
-                                          <option>Caneda</option>
-                                          <option>Noida</option>
-                                          <option selected="">USA</option>
-                                          <option>India</option>
-                                          <option>Africa</option>
+                                         <option @if ($profile->country == "USA") selected @endif>USA</option>
+                                          <option @if ($profile->country == "Caneda") selected @endif>Caneda</option>
+                                            <option @if ($profile->country == "France") selected @endif>France</option>
+                                          <option @if ($profile->country == "Bangladesh") selected @endif>Bangladesh</option>
+                                          <option @if ($profile->country == "Noida") selected @endif>Noida</option>
+                                          <option @if ($profile->country == "India") selected @endif>India</option>
+                                          <option @if ($profile->country == "Africa") selected @endif>Africa</option>
                                        </select>
                                     </div>
 
                                     <div class="form-group col-sm-6">
                                        <label>Language:</label>
                                        <select class="form-control" id="exampleFormControlSelect3" name="language">
-                                          <option>Caneda</option>
-                                          <option>Noida</option>
-                                          <option selected="">USA</option>
-                                          <option>India</option>
-                                          <option>Africa</option>
+                                          <option @if ($profile->language == "English") selected @endif>English</option>
+                                            <option @if ($profile->language == "France") selected @endif>France</option>
+                                          <option @if ($profile->language == "Bangla") selected @endif>Bangla</option>
+                                          <option @if ($profile->language == "Arabic") selected @endif>Arabic</option>
+                                          <option @if ($profile->language == "Hindi") selected @endif>Hindi</option>
                                        </select>
                                     </div>
 
@@ -128,20 +143,21 @@ Edit - {{ $profile->name }}
                                        <label>Interested In:</label>
                                        <select class="form-control" id="exampleFormControlSelect3" name="interested_in">
                                           <option>Select your interests</option>
-                                          <option>Noida</option>
-                                          <option selected="">USA</option>
-                                          <option>India</option>
-                                          <option>Africa</option>
+                                          <option @if ($profile->interested_in == "Drawing") selected @endif >Drawing</option>
+                                          <option @if ($profile->interested_in == "Coding") selected @endif >Coding</option>
+                                          <option @if ($profile->interested_in == "Photography") selected @endif >Photography</option>
+                                          <option @if ($profile->interested_in == "Man") selected @endif >Man</option>
+                                          <option @if ($profile->interested_in == "Women") selected @endif >Women</option>
+                                          <option @if ($profile->interested_in == "Design") selected @endif >Design</option>
+                                          <option @if ($profile->interested_in == "Bike Riding") selected @endif >Bike Riding</option>
+                                          <option @if ($profile->interested_in == "Others") selected @endif >Others</option>
                                        </select>
                                     </div>
 
                                     <div class="form-group col-sm-12">
                                        <label>Address:</label>
                                        <textarea class="form-control" name="address" rows="5" style="line-height: 22px;">
-                                       37 Cardinal Lane
-                                       Petersburg, VA 23803
-                                       United States of America
-                                       Zip Code: 85001
+                                         {{ $profile->address }}
                                        </textarea>
                                     </div>
                                  </div>
@@ -159,19 +175,19 @@ Edit - {{ $profile->name }}
                               </div>
                            </div>
                            <div class="card-body">
-                              <form>
+                              <form action="{!! route('changePassword') !!}" method="post">
+                                @csrf
                                  <div class="form-group">
                                     <label for="cpass">Current Password:</label>
-                                    <a href="javascripe:void();" class="float-right">Forgot Password</a>
-                                    <input type="Password" class="form-control" id="cpass" value="">
+                                    <input type="Password" class="form-control" id="cpass" name="current_password">
                                  </div>
                                  <div class="form-group">
                                     <label for="npass">New Password:</label>
-                                    <input type="Password" class="form-control" id="npass" value="">
+                                    <input type="Password" class="form-control" id="npass" value="" name="new_password">
                                  </div>
                                  <div class="form-group">
                                     <label for="vpass">Verify Password:</label>
-                                    <input type="Password" class="form-control" id="vpass" value="">
+                                    <input type="Password" class="form-control" id="vpass" value="" name="confirm_password">
                                  </div>
                                  <button type="submit" class="btn btn-primary mr-2">Submit</button>
                                  <button type="reset" class="btn iq-bg-danger">Cancle</button>
@@ -187,22 +203,86 @@ Edit - {{ $profile->name }}
                               </div>
                            </div>
                            <div class="card-body">
-                              <form>
+                              <form action="{!! route('changeContact') !!}" method="post">
+                                @csrf
                                  <div class="form-group">
                                     <label for="cno">Contact Number:</label>
-                                    <input type="text" class="form-control" id="cno" value="001 2536 123 458">
+                                    <input type="text" class="form-control" id="cno" value="{{ $profile->mobile }}" name="mobile">
                                  </div>
                                  <div class="form-group">
-                                    <label for="email">Email:</label>
-                                    <input type="text" class="form-control" id="email" value="Bnijone@demo.com">
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="url">Url:</label>
-                                    <input type="text" class="form-control" id="url" value="https://getbootstrap.com/">
+                                    <label for="url">Primary Website:</label>
+                                    <input type="text" class="form-control" id="url" value="{{ $profile->primary_website }}" name="primary_website">
                                  </div>
                                  <button type="submit" class="btn btn-primary mr-2">Submit</button>
                                  <button type="reset" class="btn iq-bg-danger">Cancle</button>
                               </form>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="tab-pane fade" id="social-accounts" role="tabpanel">
+                        <div class="card">
+                           <div class="card-header d-flex justify-content-between">
+                              <div class="iq-header-title">
+                                 <h4 class="card-title">Manage Social</h4>
+                              </div>
+                           </div>
+                           <div class="card-body">
+                             @php
+                               $option_social = DB::table('logos')->get();
+                             @endphp
+                              <form action="{!! route('socialAccouts') !!}" method="post">
+                                @csrf
+                                 <div class="form-group">
+                                    <label for="cno">Select Social Media:</label>
+                                    <select class="form-control" name="social_account">
+                                      <option value="">Select a social media</option>
+                                      @forelse ($option_social as $value)
+                                        <option value="{{ $value->title }}">{{ $value->title }}</option>
+                                      @empty
+                                        <p>No services available</p>
+                                      @endforelse
+                                    </select>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="url">Website url:</label>
+                                    <input type="text" class="form-control" id="url" name="website_url">
+                                 </div>
+                                 <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                              </form>
+                              <hr>
+                              <h4>Your accouts:</h4>
+                              <div class="card-body">
+                                   <table class="table">
+                                      <thead>
+                                         <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Logo</th>
+                                            <th scope="col">Link</th>
+                                            <th scope="col">Action</th>
+                                         </tr>
+                                      </thead>
+                                      <tbody>
+                                        @forelse ($socials as $value)
+                                         <tr>
+                                            <th scope="row">{{ $loop->index+1 }}</th>
+                                            <td>{{ $value->social_account }}</td>
+                                            <td>Otto</td>
+                                            <td>
+                                              <a href="{{ $value->website_url }}" target="_blank">{{ $value->website_url }}</a>
+                                            </td>
+                                            <td>
+                                              <a href="#" class="btn btn-danger">Delete</a>
+                                            </td>
+                                          </tr>
+                                        @empty
+                                          <tr>
+                                             <th scope="row">No accounts found</th>
+                                           </tr>
+                                        @endforelse
+                                      </tbody>
+                                   </table>
+                                </div>
                            </div>
                         </div>
                      </div>

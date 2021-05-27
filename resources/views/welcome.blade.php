@@ -4,7 +4,7 @@
 @endsection
 @section('content')
   @php
-    $users = DB::table('users')->get();
+    $users = DB::table('users')->inRandomOrder()->get();
   @endphp
   <div id="content-page" class="content-page">
      <div class="container">

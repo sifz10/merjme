@@ -21,7 +21,10 @@
       <link href="https://fonts.googleapis.com/css2?family=Pattaya&display=swap" rel="stylesheet">
    </head>
    <body class="sidebar-main-active right-column-fixed">
-
+     @php
+       $friendRequest = DB::table('friends')->where('receiver_id', Auth::id())->where('status', 0)->get();
+       $friendRequestCount = DB::table('friends')->where('receiver_id', Auth::id())->where('status', 0)->count();
+     @endphp
       <!-- Wrapper Start -->
       <div class="wrapper">
          <div class="iq-top-navbar">
@@ -60,84 +63,33 @@
                            </a>
                         </li>
                         <li class="nav-item">
-                           <a class="search-toggle  " href="#"><i class="ri-group-line"></i></a>
+                           <a class="search-toggle" href="#"><i class="ri-group-line"></i></a>
                            <div class="iq-sub-dropdown iq-sub-dropdown-large">
                               <div class="card shadow-none m-0">
                                  <div class="card-body p-0 ">
                                     <div class="bg-primary p-3">
-                                       <h5 class="mb-0 text-white">Friend Request<small class="badge  badge-light float-right pt-1">4</small></h5>
+                                       <h5 class="mb-0 text-white">Friend Request<small class="badge  badge-light float-right pt-1">{{ $friendRequestCount }}</small></h5>
                                     </div>
-                                    <div class="iq-friend-request">
+                                    @forelse ($friendRequest as $value)
+                                      <div class="iq-friend-request">
                                        <div class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between" >
                                           <div class="d-flex align-items-center">
                                              <div class="">
-                                                <img class="avatar-40 rounded" src="{!! asset('FontAssets') !!}/images/user/01.jpg" alt="">
+                                                <img class="avatar-40 rounded" src="../uploads/{{ DB::table('users')->where('id', $value->sender_id)->value('dp') }}" alt="">
                                              </div>
                                              <div class="media-body ml-3">
-                                                <h6 class="mb-0 ">Jaques Amole</h6>
-                                                <p class="mb-0">40  friends</p>
+                                                <h6 class="mb-0 ">{{ DB::table('users')->where('id', $value->sender_id)->value('name') }}</h6>
                                              </div>
                                           </div>
                                           <div class="d-flex align-items-center">
-                                             <a href="javascript:void();" class="mr-3 btn btn-primary rounded">Confirm</a>
-                                             <a href="javascript:void();" class="mr-3 btn btn-secondary rounded">Delete Request</a>
+                                             <a href="{!! route('accept_request',$value->id) !!}" class="mr-3 btn btn-primary rounded">Confirm</a>
+                                             <a href="{!! route('delete_request',$value->id) !!}" class="mr-3 btn btn-secondary rounded">Delete Request</a>
                                           </div>
                                        </div>
                                     </div>
-                                    <div class="iq-friend-request">
-                                       <div class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between" >
-                                          <div class="d-flex align-items-center">
-                                             <div class="">
-                                                <img class="avatar-40 rounded" src="{!! asset('FontAssets') !!}/images/user/02.jpg" alt="">
-                                             </div>
-                                             <div class="media-body ml-3">
-                                                <h6 class="mb-0 ">Lucy Tania</h6>
-                                                <p class="mb-0">12  friends</p>
-                                             </div>
-                                          </div>
-                                          <div class="d-flex align-items-center">
-                                             <a href="javascript:void();" class="mr-3 btn btn-primary rounded">Confirm</a>
-                                             <a href="javascript:void();" class="mr-3 btn btn-secondary rounded">Delete Request</a>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="iq-friend-request">
-                                       <div class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between" >
-                                          <div class="d-flex align-items-center">
-                                             <div class="">
-                                                <img class="avatar-40 rounded" src="{!! asset('FontAssets') !!}/images/user/03.jpg" alt="">
-                                             </div>
-                                             <div class="media-body ml-3">
-                                                <h6 class="mb-0 ">Manny Petty</h6>
-                                                <p class="mb-0">3  friends</p>
-                                             </div>
-                                          </div>
-                                          <div class="d-flex align-items-center">
-                                             <a href="javascript:void();" class="mr-3 btn btn-primary rounded">Confirm</a>
-                                             <a href="javascript:void();" class="mr-3 btn btn-secondary rounded">Delete Request</a>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="iq-friend-request">
-                                       <div class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between" >
-                                          <div class="d-flex align-items-center">
-                                             <div class="">
-                                                <img class="avatar-40 rounded" src="{!! asset('FontAssets') !!}/images/user/04.jpg" alt="">
-                                             </div>
-                                             <div class="media-body ml-3">
-                                                <h6 class="mb-0 ">Marsha Mello</h6>
-                                                <p class="mb-0">15  friends</p>
-                                             </div>
-                                          </div>
-                                          <div class="d-flex align-items-center">
-                                             <a href="javascript:void();" class="mr-3 btn btn-primary rounded">Confirm</a>
-                                             <a href="javascript:void();" class="mr-3 btn btn-secondary rounded">Delete Request</a>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="text-center">
-                                       <a href="#" class="mr-3 btn text-primary">View More Request</a>
-                                    </div>
+                                    @empty
+                                      <p class="text-center">No friend request found.</p>
+                                    @endforelse
                                  </div>
                               </div>
                            </div>
