@@ -40,13 +40,14 @@
 
                     <h3>Create an account</h3>
                     <div class="login-inner-form">
-                        <form action="#" method="GET">
+                        <form action="{!! route('register') !!}" method="post" enctype="multipart/form-data">
+                          @csrf
                             <div class="form-group form-box">
                                 <input class="input-text" id="name" type="text" name="name" :value="old('name')" required autofocus placeholder="Full name">
                                 <i class="flaticon-user"></i>
                             </div>
                             <div class="form-group form-box">
-                                <input class="input-text" type="email" id="email" type="email" name="email" :value="old('email')" required placeholder="Email Address">
+                                <input class="input-text" type="email" id="email" type="email" name="email" :value="old('email')" required placeholder="Email address">
                                 <i class="flaticon-mail-2"></i>
                             </div>
                             <div class="form-group form-box">
@@ -55,6 +56,12 @@
                                                 type="password"
                                                 name="password"
                                                 required autocomplete="new-password" placeholder="Password">
+                                <i class="flaticon-password"></i>
+                            </div>
+                            <div class="form-group form-box">
+                                <input id="password_confirmation" class="input-text"
+                                                type="password"
+                                                name="password_confirmation" required placeholder="Confirm password">
                                 <i class="flaticon-password"></i>
                             </div>
                             <div class="checkbox clearfix">

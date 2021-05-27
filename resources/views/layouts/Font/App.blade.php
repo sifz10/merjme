@@ -17,6 +17,8 @@
       <link rel="stylesheet" href="{!! asset('FontAssets') !!}/css/style.css">
       <!-- Responsive CSS -->
       <link rel="stylesheet" href="{!! asset('FontAssets') !!}/css/responsive.css">
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Pattaya&display=swap" rel="stylesheet">
    </head>
    <body class="sidebar-main-active right-column-fixed">
 
@@ -27,8 +29,8 @@
                <nav class="navbar navbar-expand-lg navbar-light p-0">
                   <div class="iq-navbar-logo d-flex justify-content-between">
                      <a href="{!! route('home') !!}">
-                     <img src="{!! asset('FontAssets') !!}/images/logo.png" class="img-fluid" alt="">
-                     <span>Merjme</span>
+                     {{-- <img src="{!! asset('FontAssets') !!}/images/logo.png" class="img-fluid" alt=""> --}}
+                     <span style="font-family: 'Pattaya', sans-serif; color:pink">Merjme</span>
                      </a>
                      <div class="iq-menu-bt align-self-center">
                   </div>
@@ -45,8 +47,8 @@
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                      <ul class="navbar-nav ml-auto navbar-list">
                         <li>
-                           <a href="profile.html" class="  d-flex align-items-center">
-                              <img src="{!! asset('FontAssets') !!}/images/user/1.jpg" class="img-fluid rounded-circle mr-3" alt="user">
+                           <a href="{!! route('profile',Auth::user()->slug) !!}" class="  d-flex align-items-center">
+                              <img src="../uploads/{{ Auth::user()->dp }}" class="img-fluid rounded-circle mr-3" alt="user">
                               <div class="caption">
                                  <h6 class="mb-0 line-height">{{ Auth::user()->name }}</h6>
                               </div>
@@ -176,7 +178,7 @@
                                        </div>
                                     </a>
                                     <div class="d-inline-block w-100 text-center p-3">
-                                       <a class="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
+                                       <a class="bg-primary iq-sign-btn" href="{!! route('logout') !!}" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
                                     </div>
                                  </div>
                               </div>
@@ -202,7 +204,7 @@
                   </ul>
                </div>
                <div class="col-lg-6 text-right">
-                  Copyright 2020 <a href="#">Merjme</a> All Rights Reserved.
+                  Copyright 2021 <a href="#">Merjme</a> All Rights Reserved.
                </div>
             </div>
          </div>
