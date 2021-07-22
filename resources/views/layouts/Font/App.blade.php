@@ -6,9 +6,19 @@
       <!-- Required meta tags -->
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="keywords" content="Merjme, social media, Social bookmarking">
+      <meta name="author" content="Lyn Giotto">
+      <meta name="publisher" content="Sifz Tech">
+      <meta name="copyright" content="Merjme">
+      <meta name="description" content="Merjme is a social platform, Here you can showcase your all profiles into a single profile. Merjme makes easy to share your contact to the whole world.">
+      <meta name="page-topic" content="Media">
+      <meta name="page-type" content="Blogging">
+      <meta name="audience" content="Everyone">
+      <meta name="robots" content="index, follow">
+
       <title>Merjme - @yield('title')</title>
       <!-- Favicon -->
-      <link rel="shortcut icon" href="{!! asset('FontAssets') !!}/images/favicon.ico" />
+      <link rel="shortcut icon" href="../uploads/logo.jfif" />
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="{!! asset('FontAssets') !!}/css/bootstrap.min.css">
       <!-- Typography CSS -->
@@ -17,8 +27,12 @@
       <link rel="stylesheet" href="{!! asset('FontAssets') !!}/css/style.css">
       <!-- Responsive CSS -->
       <link rel="stylesheet" href="{!! asset('FontAssets') !!}/css/responsive.css">
-      <link rel="preconnect" href="https://fonts.gstatic.com">
-      <link href="https://fonts.googleapis.com/css2?family=Pattaya&display=swap" rel="stylesheet">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Encode+Sans+SC:wght@100&display=swap" rel="stylesheet">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
    </head>
    <body class="sidebar-main-active right-column-fixed">
      @php
@@ -32,16 +46,18 @@
                <nav class="navbar navbar-expand-lg navbar-light p-0">
                   <div class="iq-navbar-logo d-flex justify-content-between">
                      <a href="{!! route('home') !!}">
-                     {{-- <img src="{!! asset('FontAssets') !!}/images/logo.png" class="img-fluid" alt=""> --}}
-                     <span style="font-family: 'Pattaya', sans-serif; color:pink">Merjme</span>
+                     <img src="../uploads/logo.jfif" class="img-fluid" alt="">
+                     <span style="font-family: 'Encode Sans SC', sans-serif; color:#ffffff;">MerjMe</span>
                      </a>
                      <div class="iq-menu-bt align-self-center">
                   </div>
                   </div>
+
                   <div class="iq-search-bar">
-                     <form action="#" class="searchbox">
-                        <input type="text" class="text search-input" placeholder="Type here to search...">
-                        <a class="search-link" href="#"><i class="ri-search-line"></i></a>
+                     <form action="{!! route('searching') !!}" class="searchbox" method="post" id="form-id">
+                       @csrf
+                        <input type="text" class="text search-input" name="search_input" placeholder="Type here to search...">
+                        <a class="search-link" href="#" onclick="document.getElementById('form-id').submit();"><i class="ri-search-line"></i></a>
                      </form>
                   </div>
                   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"  aria-label="Toggle navigation">
@@ -50,7 +66,7 @@
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                      <ul class="navbar-nav ml-auto navbar-list">
                         <li>
-                           <a href="{!! route('profile',Auth::user()->slug) !!}" class="  d-flex align-items-center">
+                           <a href="{!! route('profile',Auth::user()->slug) !!}" class="d-flex align-items-center">
                               <img src="../uploads/{{ Auth::user()->dp }}" class="img-fluid rounded-circle mr-3" alt="user">
                               <div class="caption">
                                  <h6 class="mb-0 line-height">{{ Auth::user()->name }}</h6>
@@ -107,7 +123,20 @@
                                        <h5 class="mb-0 text-white line-height">Hello {{ Auth::user()->name }}</h5>
                                        <span class="text-white font-size-12">Available</span>
                                     </div>
-                                    <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
+                                    @if (Auth::user()->role == "super_admin")
+                                    <a href="{!! route('dashboard') !!}" class="iq-sub-card iq-bg-primary-hover">
+                                       <div class="media align-items-center">
+                                          <div class="rounded card-icon iq-bg-primary">
+                                             <i class="ri-file-user-line"></i>
+                                          </div>
+                                          <div class="media-body ml-3">
+                                             <h6 class="mb-0 ">Admin panel</h6>
+                                             <p class="mb-0 font-size-12">This will only visible to admin.</p>
+                                          </div>
+                                       </div>
+                                    </a>
+                                    @endif
+                                    <a href="{!! route('profile',Auth::user()->slug) !!}" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded card-icon iq-bg-primary">
                                              <i class="ri-file-user-line"></i>
@@ -118,7 +147,7 @@
                                           </div>
                                        </div>
                                     </a>
-                                    <a href="profile-edit.html" class="iq-sub-card iq-bg-warning-hover">
+                                    <a href="{!! route('profile_settings', Auth::user()->slug) !!}" class="iq-sub-card iq-bg-warning-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded card-icon iq-bg-warning">
                                              <i class="ri-profile-line"></i>
@@ -151,8 +180,8 @@
             <div class="row">
                <div class="col-lg-6">
                   <ul class="list-inline mb-0">
-                     <li class="list-inline-item"><a href="privacy-policy.html">Privacy Policy</a></li>
-                     <li class="list-inline-item"><a href="terms-of-service.html">Terms of Use</a></li>
+                     <li class="list-inline-item"><a href="{!! route('privacy') !!}">Privacy Policy <img src="../uploads/tredmark.png" width="50px" alt="">  <img src="../uploads/tredmark2.png" width="10px" alt=""></a></li>
+                     <li class="list-inline-item"><a href="{!! route('terms') !!}">Terms of Use</a></li>
                   </ul>
                </div>
                <div class="col-lg-6 text-right">

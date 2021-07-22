@@ -30,11 +30,11 @@
                        <div class="profile-header">
                           <div class="cover-container">
                              <img src="../uploads/{{ $profile->cover }}" alt="profile-bg" class="rounded img-fluid">
-                             @if (Auth::user()->id == $profile->id)
+                             {{-- @if (Auth::user()->id == $profile->id)
                              <ul class="header-nav d-flex flex-wrap justify-end p-0 m-0">
                                 <li><a href="{!! route('profile_settings',$profile->slug) !!}"><i class="ri-settings-4-line"></i></a></li>
                              </ul>
-                           @endif
+                           @endif --}}
                           </div>
                           <div class="user-detail text-center mb-3">
                              <div class="profile-img">
@@ -48,31 +48,7 @@
                             $social_link = DB::table('socials')->where('user_id', $profile->id)->get();
                           @endphp
                           <div class="profile-info p-4 d-flex align-items-center justify-content-between position-relative">
-                             <div class="social-links">
-                                @if (!empty($isExist) && $status == 1)
-                                <ul class="social-data-block d-flex align-items-center justify-content-between list-inline p-0 m-0">
-                                  @forelse ($social_link as $value)
-                                    <li class="text-center pr-3">
-                                      <a href="{{ $value->website_url }}" target="_blank"><img src="{!! asset('FontAssets') !!}/images/icon/{{ DB::table('logos')->where('title', $value->social_account)->value('image') }}" class="img-fluid rounded" alt="facebook"></a>
-                                    </li>
-                                  @empty
-                                    <li class="text-center pr-3">
-                                      <p>No media found</p>
-                                    </li>
-                                  @endforelse
-                                </ul>
-                              @elseif (Auth::user()->id == $profile->id)
-                                <ul class="social-data-block d-flex align-items-center justify-content-between list-inline p-0 m-0">
-                                  @forelse ($social_link as $value)
-                                    <li class="text-center pr-3">
-                                      <a href="{{ $value->website_url }}" target="_blank"><img src="{!! asset('FontAssets') !!}/images/icon/{{ DB::table('logos')->where('title', $value->social_account)->value('image') }}" class="img-fluid rounded" alt="facebook"></a>
-                                    </li>
-                                  @empty
 
-                                  @endforelse
-                                </ul>
-                              @endif
-                             </div>
                             @if (Auth::id() != $profile->id && empty($isExist) && empty($isRecive))
                              <div class="social-info">
                                <ul class="social-data-block d-flex align-items-center justify-content-between list-inline p-0 m-0">
@@ -138,7 +114,49 @@
               </div>
               <div class="col-sm-12">
                  <div class="tab-content">
-                 @if ($statusRec == 1)
+                 @if (!empty( $isExistSent) && $status == 1 || $statusRec == 1)
+                   <div class="tab-pane fade active show" id="about" role="tabpanel">
+                      <div class="card">
+                         <div class="card-body">
+                            <div class="row">
+                               <div class="col-md-12">
+                                 <div class="social-links">
+                                   @if (!empty( $isExistSent) && $status == 1 || $statusRec == 1)
+                                   <ul class="social-data-block d-flex align-items-center justify-content-between list-inline p-0 m-0">
+                                     @forelse ($social_link as $value)
+                                       <li class="text-center pr-3">
+                                         <a href="{{ $value->website_url }}" target="_blank"><img src="{!! asset('FontAssets') !!}/images/icon/{{ DB::table('logos')->where('title', $value->social_account)->value('image') }}" class="img-fluid rounded" alt="facebook"></a>
+                                         @if ($value->social_account == "Others")
+                                           <br><small style="font-size: 10px">{{ $value->website_url }}</small>
+                                         @endif
+                                       </li>
+                                     @empty
+                                       <li class="text-center pr-3">
+                                         <p>No media found</p>
+                                       </li>
+                                     @endforelse
+                                   </ul>
+                                 @endif
+                                  @if (Auth::user()->id == $profile->id)
+                                    <ul class="social-data-block d-flex align-items-center justify-content-between list-inline p-0 m-0">
+                                      @forelse ($social_link as $value)
+                                        <li class="text-center pr-3">
+                                          <a href="{{ $value->website_url }}" target="_blank"><img src="{!! asset('FontAssets') !!}/images/icon/{{ DB::table('logos')->where('title', $value->social_account)->value('image') }}" class="img-fluid rounded" alt="facebook"></a>
+                                          @if ($value->social_account == "Others")
+                                            <br><small style="font-size: 10px">{{ $value->website_url }}</small>
+                                          @endif
+                                        </li>
+                                      @empty
+
+                                      @endforelse
+                                    </ul>
+                                  @endif
+                                 </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
                     <div class="tab-pane fade active show" id="about" role="tabpanel">
                        <div class="card">
                           <div class="card-body">
@@ -158,10 +176,10 @@
                                          <div class="row">
                                            @if (!empty($profile->email))
                                             <div class="col-3">
-                                               <h6>Email</h6>
+                                            <h6>Email</h6>
                                             </div>
                                             <div class="col-9">
-                                               <p class="mb-0">{{ $profile->email }}</p>
+                                              <a href="mailto:{{ $profile->email }}"><p class="mb-0">{{ $profile->email }}</p></a>
                                             </div>
                                           @endif
                                           @if (!empty($profile->mobile))
@@ -210,7 +228,7 @@
                                           @endif
                                           @if (!empty($profile->interested_in))
                                             <div class="col-3">
-                                               <h6>interested in</h6>
+                                               <h6>Interested in</h6>
                                             </div>
                                             <div class="col-9">
                                                <p class="mb-0">{{ $profile->interested_in }}</p>
@@ -218,7 +236,7 @@
                                           @endif
                                           @if (!empty($profile->language))
                                             <div class="col-3">
-                                               <h6>language</h6>
+                                               <h6>Language</h6>
                                             </div>
                                             <div class="col-9">
                                                <p class="mb-0">{{ $profile->language }}</p>
@@ -232,7 +250,8 @@
                           </div>
                        </div>
                     </div>
-                    {{-- <div class="tab-pane fade" id="friends" role="tabpanel">
+
+                    <div class="tab-pane fade" id="friends" role="tabpanel">
                        <div class="card">
                           <div class="card-body">
                              <h2>Friends</h2>
@@ -273,16 +292,38 @@
                                 </div>
                              </div>
                           </div>
-                       </div> --}}
+                       </div>
                      @elseif (Auth::user()->id == $profile->id)
                        @php
                          $friends = DB::table('friends')->where('sender_id', Auth::id())->orWhere('receiver_id', Auth::id())->where('status', 1)->get();
                          $friendsCount = DB::table('friends')->where('sender_id', Auth::id())->orWhere('receiver_id', Auth::id())->where('status', 1)->count();
                        @endphp
+
                        <div class="tab-pane fade active show" id="about" role="tabpanel">
                           <div class="card">
                              <div class="card-body">
                                 <div class="row">
+                                  <div class="col-md-12">
+                                    <div class="social-links">
+
+                                     @if(Auth::user()->id == $profile->id)
+                                       <ul class="social-data-block d-flex align-items-center justify-content-between list-inline p-0 m-0">
+                                         @forelse ($social_link as $value)
+                                           <li class="text-center pr-3">
+                                             <a href="{{ $value->website_url }}" target="_blank"><img src="{!! asset('FontAssets') !!}/images/icon/{{ DB::table('logos')->where('title', $value->social_account)->value('image') }}" class="img-fluid rounded" alt="facebook"></a>
+                                             @if ($value->social_account == "Others")
+                                               <br><small style="font-size: 10px">{{ $value->website_url }}</small>
+                                             @endif
+                                           </li>
+                                         @empty
+
+                                         @endforelse
+                                       </ul>
+                                     @endif
+                                    </div>
+                                  </div>
+                                  <br>
+                                  <br>
                                    <div class="col-md-3">
                                       <ul class="nav nav-pills basic-info-items list-inline d-block p-0 m-0">
                                          <li>
@@ -301,7 +342,7 @@
                                                   <h6>Email</h6>
                                                </div>
                                                <div class="col-9">
-                                                  <p class="mb-0">{{ $profile->email }}</p>
+                                                  <a href="mailto:{{ $profile->email }}"><p class="mb-0">{{ $profile->email }}</p> </a>
                                                </div>
                                              @endif
                                              @if (!empty($profile->mobile))
@@ -350,7 +391,7 @@
                                              @endif
                                              @if (!empty($profile->interested_in))
                                                <div class="col-3">
-                                                  <h6>interested in</h6>
+                                                  <h6>Interested in</h6>
                                                </div>
                                                <div class="col-9">
                                                   <p class="mb-0">{{ $profile->interested_in }}</p>
@@ -358,7 +399,7 @@
                                              @endif
                                              @if (!empty($profile->language))
                                                <div class="col-3">
-                                                  <h6>language</h6>
+                                                  <h6>Language</h6>
                                                </div>
                                                <div class="col-9">
                                                   <p class="mb-0">{{ $profile->language }}</p>
@@ -396,11 +437,11 @@
                                                   <div class="iq-friendlist-block">
                                                      <div class="d-flex align-items-center justify-content-between">
                                                         <div class="d-flex align-items-center">
-                                                           <a href="#">
-                                                           <img src="../uploads/{{ $friend->dp }}" alt="profile-img" class="img-fluid">
+                                                           <a href="{!! route('profile', $friend->slug) !!}">
+                                                           <img src="../uploads/{{ $friend->dp }}" alt="profile-img" width="150px" class="img-fluid">
                                                            </a>
                                                            <div class="friend-info ml-3">
-                                                              <h5>{{ $friend->name }}</h5>
+                                                              <a href="{!! route('profile', $friend->slug) !!}"><h5>{{ $friend->name }}</h5></a>
                                                               {{-- <p class="mb-0">15  friends</p> --}}
                                                            </div>
                                                         </div>

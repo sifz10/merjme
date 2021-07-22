@@ -12,6 +12,7 @@
         "intervention/image": "^2.5",
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
+        "munafio/chatify": "^1.2",
         "nesbot/carbon": "^2.48"
     },
     "require-dev": {

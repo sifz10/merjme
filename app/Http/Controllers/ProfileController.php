@@ -60,9 +60,11 @@ class ProfileController extends Controller
         'status' => $request->status,
         'country' => $request->country,
         'language' => $request->language,
+        'about_me' => $request->about_me,
         'address' => $request->address,
         'interested_in' => $request->interested_in,
         'dp' => $dp_rename,
+        'avatar' => $dp_rename,
         'cover' => $cover_rename,
       ]);
 
@@ -102,5 +104,11 @@ class ProfileController extends Controller
       ]);
 
       return back()->with('success', 'Your contacts has been updated!');
+    }
+
+    public function SocialLinkDelete(Request $request)
+    {
+      DB::table('socials')->where('id', $request->id)->delete();
+      return back()->with('danger', 'Your social account has been removed.');
     }
 }

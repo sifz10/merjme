@@ -17,13 +17,13 @@ class FriendController extends Controller
       $isExist = DB::table('friends')->where('sender_id', Auth::id())->where('receiver_id', $request->receiver_id)->first();
       if (!empty($isExist)) {
         DB::table('friends')->where('sender_id', Auth::id())->where('receiver_id', $request->receiver_id)->delete();
-        return back()->with('danger', 'You have cancel a friend request.');
+        return back()->with('danger', 'You have canceled a friend request.');
       }
       DB::table('friends')->insert([
         'sender_id' => Auth::id(),
         'receiver_id' => $request->receiver_id,
       ]);
-      return back()->with('success', 'You have sent a friend request.');
+      return back()->with('success', 'You have sent a fans request.');
     }
 
     public function accept_request(Request $request)

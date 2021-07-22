@@ -94,14 +94,19 @@ Edit - {{ $profile->name }}
                                     </div>
                                     <div class="form-group col-sm-6">
                                        <label class="d-block">Gender:</label>
-                                       <div class="custom-control custom-radio custom-control-inline">
+                                       <select name="gender" class="form-control" name="">
+                                         <option value="Male" @if($profile->gender == 'Male') selected @endif>Male</option>
+                                         <option value="Female" @if($profile->gender == 'Female') selected @endif>Female</option>
+                                         <option value="HUNGRY" @if($profile->gender == 'Fluid') selected @endif>Fluid</option>
+                                       </select>
+                                       {{-- <div class="custom-control custom-radio custom-control-inline">
                                           <input type="radio" id="customRadio6" @if ($profile->gender == "Male") checked @endif name="gender" value="Male" class="custom-control-input">
                                           <label class="custom-control-label" for="customRadio6"> Male </label>
                                        </div>
                                        <div class="custom-control custom-radio custom-control-inline">
                                           <input type="radio" @if ($profile->gender =="Female") checked @endif id="customRadio7" name="gender" name="Female" value="Female" class="custom-control-input">
                                           <label class="custom-control-label" for="customRadio7"> Female </label>
-                                       </div>
+                                       </div> --}}
                                     </div>
 
                                     <div class="form-group col-sm-6">
@@ -112,6 +117,7 @@ Edit - {{ $profile->name }}
                                           <option @if ($profile->status == "Widowed") selected @endif>Widowed</option>
                                           <option @if ($profile->status == "Divorced") selected @endif>Divorced</option>
                                           <option @if ($profile->status == "Separated") selected @endif>Separated </option>
+                                          <option @if ($profile->status == "Fluid") selected @endif>Fluid</option>
                                        </select>
                                     </div>
 
@@ -120,7 +126,7 @@ Edit - {{ $profile->name }}
                                        <select class="form-control" id="exampleFormControlSelect3" name="country">
                                          <option @if ($profile->country == "USA") selected @endif>USA</option>
                                           <option @if ($profile->country == "Caneda") selected @endif>Caneda</option>
-                                            <option @if ($profile->country == "France") selected @endif>France</option>
+                                          <option @if ($profile->country == "France") selected @endif>France</option>
                                           <option @if ($profile->country == "Bangladesh") selected @endif>Bangladesh</option>
                                           <option @if ($profile->country == "Noida") selected @endif>Noida</option>
                                           <option @if ($profile->country == "India") selected @endif>India</option>
@@ -132,7 +138,7 @@ Edit - {{ $profile->name }}
                                        <label>Language:</label>
                                        <select class="form-control" id="exampleFormControlSelect3" name="language">
                                           <option @if ($profile->language == "English") selected @endif>English</option>
-                                            <option @if ($profile->language == "France") selected @endif>France</option>
+                                            <option @if ($profile->language == "French") selected @endif>French</option>
                                           <option @if ($profile->language == "Bangla") selected @endif>Bangla</option>
                                           <option @if ($profile->language == "Arabic") selected @endif>Arabic</option>
                                           <option @if ($profile->language == "Hindi") selected @endif>Hindi</option>
@@ -143,17 +149,22 @@ Edit - {{ $profile->name }}
                                        <label>Interested In:</label>
                                        <select class="form-control" id="exampleFormControlSelect3" name="interested_in">
                                           <option>Select your interests</option>
-                                          <option @if ($profile->interested_in == "Drawing") selected @endif >Drawing</option>
-                                          <option @if ($profile->interested_in == "Coding") selected @endif >Coding</option>
-                                          <option @if ($profile->interested_in == "Photography") selected @endif >Photography</option>
-                                          <option @if ($profile->interested_in == "Man") selected @endif >Man</option>
-                                          <option @if ($profile->interested_in == "Women") selected @endif >Women</option>
-                                          <option @if ($profile->interested_in == "Design") selected @endif >Design</option>
-                                          <option @if ($profile->interested_in == "Bike Riding") selected @endif >Bike Riding</option>
+                                          <option @if ($profile->interested_in == "Branding") selected @endif >Branding</option>
+                                          <option @if ($profile->interested_in == "Charity") selected @endif >Charity</option>
+                                          <option @if ($profile->interested_in == "Political") selected @endif >Political</option>
+                                          <option @if ($profile->interested_in == "Professional") selected @endif >Professional</option>
+                                          <option @if ($profile->interested_in == "Romance") selected @endif >Romance</option>
                                           <option @if ($profile->interested_in == "Others") selected @endif >Others</option>
                                        </select>
                                     </div>
 
+
+                                    <div class="form-group col-sm-12">
+                                       <label>About me:</label>
+                                       <textarea class="form-control" name="about_me" rows="5" style="line-height: 22px;">
+                                         {{ $profile->about_me }}
+                                       </textarea>
+                                    </div>
                                     <div class="form-group col-sm-12">
                                        <label>Address:</label>
                                        <textarea class="form-control" name="address" rows="5" style="line-height: 22px;">
@@ -162,7 +173,7 @@ Edit - {{ $profile->name }}
                                     </div>
                                  </div>
                                  <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                                 <button type="reset" class="btn iq-bg-danger">Cancle</button>
+                                 <button type="reset" class="btn iq-bg-danger">Cancel</button>
                               </form>
                            </div>
                         </div>
@@ -190,7 +201,7 @@ Edit - {{ $profile->name }}
                                     <input type="Password" class="form-control" id="vpass" value="" name="confirm_password">
                                  </div>
                                  <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                                 <button type="reset" class="btn iq-bg-danger">Cancle</button>
+                                 <button type="reset" class="btn iq-bg-danger">Cancel</button>
                               </form>
                            </div>
                         </div>
@@ -214,7 +225,7 @@ Edit - {{ $profile->name }}
                                     <input type="text" class="form-control" id="url" value="{{ $profile->primary_website }}" name="primary_website">
                                  </div>
                                  <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                                 <button type="reset" class="btn iq-bg-danger">Cancle</button>
+                                 <button type="reset" class="btn iq-bg-danger">Cancel</button>
                               </form>
                            </div>
                         </div>
@@ -272,7 +283,7 @@ Edit - {{ $profile->name }}
                                               <a href="{{ $value->website_url }}" target="_blank">{{ $value->website_url }}</a>
                                             </td>
                                             <td>
-                                              <a href="#" class="btn btn-danger">Delete</a>
+                                             <a href="{!! route('SocialLinkDelete',$value->id) !!}" class="btn btn-danger">Delete</a>
                                             </td>
                                           </tr>
                                         @empty

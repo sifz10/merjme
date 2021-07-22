@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\FriendController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +37,7 @@ Route::get('/profile-settings/{slug}', [ProfileController::class, 'profile_setti
 Route::post('/profile-settings-update', [ProfileController::class, 'profile_update'])->name('profile_update');
 Route::post('/profile-change-password', [ProfileController::class, 'changePassword'])->name('changePassword');
 Route::post('/profile-change-contact', [ProfileController::class, 'changeContact'])->name('changeContact');
+Route::get('/profile/social-account/{id}/delete', [ProfileController::class, 'SocialLinkDelete'])->name('SocialLinkDelete');
 
 Route::post('/social-accouts', [SocialController::class, 'socialAccouts'])->name('socialAccouts');
 
@@ -42,6 +45,21 @@ Route::post('/social-accouts', [SocialController::class, 'socialAccouts'])->name
 Route::get('/friend-request-sent/{receiver_id}', [FriendController::class, 'sentFriendRequest'])->name('sentFriendRequest');
 Route::get('/friend-request-accept-request/{id}', [FriendController::class, 'accept_request'])->name('accept_request');
 Route::get('/friend-request-delete-request/{id}', [FriendController::class, 'delete_request'])->name('delete_request');
+
+// Dashboard
+Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+Route::get('/users-edit/{id}', [DashboardController::class, 'editUsers'])->name('editUsers');
+Route::post('/users-save', [DashboardController::class, 'userUpdate'])->name('userUpdate');
+Route::get('/users-delete/{id}', [DashboardController::class, 'userDelete'])->name('userDelete');
+// Dashboard
+
+
+// Privacy And Terms Pages
+Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('privacy');
+Route::get('/terms-and-conditions', [PageController::class, 'terms'])->name('terms');
+
+// Privacy And Terms Pages
+Route::post('/searching', [PageController::class, 'searching'])->name('searching');
 });
 
 Route::get('/logout', [FrontEndController::class, function(){

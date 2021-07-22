@@ -10,11 +10,11 @@
     <link type="text/css" rel="stylesheet" href="{!! asset('AuthAssets') !!}/nts/flaticon/font/flaticon.css">
 
     <!-- Favicon icon -->
-    <link rel="shortcut icon" href="{!! asset('AuthAssets') !!}/img/favicon.ico" type="image/x-icon" >
+    <link rel="shortcut icon" href="../uploads/logo.jfif" type="image/x-icon" >
 
     <!-- Google fonts -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800%7CPoppins:400,500,700,800,900%7CRoboto:100,300,400,400i,500,700">
-
+    <link href="https://fonts.googleapis.com/css2?family=Pattaya&display=swap" rel="stylesheet">
     <!-- Custom Stylesheet -->
     <link type="text/css" rel="stylesheet" href="{!! asset('AuthAssets') !!}/css/style.css">
     <link rel="stylesheet" type="text/css" id="style_sheet" href="{!! asset('AuthAssets') !!}/css/skins/default.css">
@@ -23,10 +23,13 @@
 <body>
 
 <!-- Login 7 start -->
-<div class="login-7" style="background-color: darkslateblue;">
+<div class="login-7" style="background:#010a31;">
     <div class="container">
+      <a href="{!! route('home') !!}" style="style:none">
+          <img src="../uploads/logo.jfif" width="=40px" class="mb-5" alt="">
+        </a>
         <div class="row login-box">
-            <div class="col-lg-5 col-md-12 bg-img none-992 col-pad-0 align-self-center">
+            <div class="col-lg-5 col-md-12 none-992 align-self-center" style="background: url({!! asset('AuthAssets/img/img-10.jpg') !!}); background-repeat: no-repeat; background-size: 300%;">
                 <div class="info">
                     <div class="btn-section clearfix">
                         <a href="{!! route('login') !!}" class="link-btn active btn-1">Login</a>
@@ -64,16 +67,8 @@
                                                 name="password_confirmation" required placeholder="Confirm password">
                                 <i class="flaticon-password"></i>
                             </div>
-                            <div class="checkbox clearfix">
-                                <div class="form-check checkbox-theme">
-                                    <input class="form-check-input" type="checkbox" value="" id="rememberMe">
-                                    <label class="form-check-label" for="rememberMe">
-                                        I agree to the <a href="#">terms of service</a>
-                                    </label>
-                                </div>
-                            </div>
                             <div class="form-group mb-0">
-                                <button type="submit" class="btn-md btn-theme btn-block">Register</button>
+                                <button type="submit" class="btn-md btn-theme btn-block" style="background: #010a31">Register</button>
                             </div>
                             <p class="text">Already a member?<a href="{!! route('login') !!}"> Login here</a></p>
                         </form>
